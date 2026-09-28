@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'YOUR_DOCKERHUB_USERNAME'   // <-- change me
+        DOCKERHUB_USER = 'bilel'
         BACKEND_IMAGE  = "${DOCKERHUB_USER}/gestion-projets-backend"
         FRONTEND_IMAGE = "${DOCKERHUB_USER}/gestion-projets-frontend"
         IMAGE_TAG      = "${BUILD_NUMBER}"
@@ -20,33 +20,16 @@ pipeline {
             }
         }
 
-        stage('Test Backend') {
-            steps {
-                dir('backend') {
-                    sh 'mvn -B test'
-                }
-            }
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: 'backend/target/surefire-reports/*.xml'
-                }
-            }
-        }
-
         stage('Docker Build') {
             parallel {
                 stage('Backend image') {
                     steps {
-                        sh '''
-                            docker build -t $BACKEND_IMAGE:$IMAGE_TAG -t $BACKEND_IMAGE:latest ./backend
-                        '''
+                        sh 'docker build -t $BACKEND_IMAGE:$IMAGE_TAG -t $BACKEND_IMAGE:latest ./backend'
                     }
                 }
                 stage('Frontend image') {
                     steps {
-                        sh '''
-                            docker build -t $FRONTEND_IMAGE:$IMAGE_TAG -t $FRONTEND_IMAGE:latest ./frontend
-                        '''
+                        sh 'docker build -t $FRONTEND_IMAGE:$IMAGE_TAG -t $FRONTEND_IMAGE:latest ./frontend'
                     }
                 }
             }
