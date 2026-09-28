@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'bilel'
+        DOCKERHUB_USER = 'bilelgara'
         BACKEND_IMAGE  = "${DOCKERHUB_USER}/gestion-projets-backend"
         FRONTEND_IMAGE = "${DOCKERHUB_USER}/gestion-projets-frontend"
         IMAGE_TAG      = "${BUILD_NUMBER}"
